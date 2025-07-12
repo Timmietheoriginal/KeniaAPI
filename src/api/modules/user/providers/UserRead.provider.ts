@@ -6,13 +6,13 @@ import { ReadUserRecordType, UserWithRelationsAndPermissions } from "~/api/modul
 export default class UserReadProvider {
   public async getOneByCriteria(criteria: ReadUserRecordType, dbClient: PrismaTransactionClient = DbClient): Promise<UserWithRelationsAndPermissions | null> {
     try {
-      const { userId, email, tenantId } = criteria;
+      const { userId, email, tenantId } = criteria;  //consider removing email since not coming from cache
 
       const result = await dbClient?.user?.findFirst({
         where: {
           ...(userId && { id: Number(userId) }),
           ...(tenantId && { tenantId }),
-          ...(email && { email }),
+          ...(email && { email }),  //consider removing email since not coming from cache
         },
         include: {
           staff: {
